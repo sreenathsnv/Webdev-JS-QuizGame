@@ -1,6 +1,7 @@
 
+
 const start = document.getElementById('start')
-const stBtn = document.getElementById('start-btn')
+var stBtn = document.getElementById('start-btn')
 const container = document.getElementById('container')
 const quenum = document.getElementById('quenum')
 const quest = document.getElementById('quest')
@@ -8,6 +9,7 @@ let optlist = document.getElementsByClassName('opt')
 const nexBtn = document.getElementById('next')
 const score = document.getElementById('score')
 const optDiv = document.getElementById('optlist')
+const ScoreBoard = document.getElementById('scoreBoard')
 
 // variables
 
@@ -18,7 +20,7 @@ var QueBank;
 // Initialisation
 container.style.display = 'none';
 score.style.display = 'none';
-
+ScoreBoard.style.display = 'none'
 
 
 //quiz start
@@ -26,8 +28,9 @@ score.style.display = 'none';
 
 
 async function startGame(){
+    ScoreBoard.innerHTML = '';
+    ScoreBoard.style.display = 'none'
     console.log('game started')
-  
     start.innerHTML = `<span class="loader"></span>`
 
     QueBank = await fetch('https://opentdb.com/api.php?amount=20')
@@ -35,15 +38,14 @@ async function startGame(){
     .then(msg=> {return msg.results})
     .catch(()=>{alert('Some error Occured!!')})
     currScore = 0;
-    
+    currQue = 0;
     score.style.display = 'flex';
     start.style.display = 'none';
     score.innerHTML = `SCORE  ${currScore}/20`;
     takeQuiz(currQue)
 }
 
-stBtn.addEventListener('click',()=>{ startGame()
-})
+stBtn.addEventListener('click',startGame)
 
 
 function shuffleArray(array) {
@@ -70,7 +72,6 @@ function createChoices(options)
 }
 function takeQuiz(currQue)
 {
-
     nexBtn.disabled = true;
     container.style.display = 'flex';
     quenum.innerHTML = currQue+1;
@@ -78,7 +79,7 @@ function takeQuiz(currQue)
     options = shuffleArray([...QueBank[currQue].incorrect_answers,QueBank[currQue].correct_answer])
     let currScore = Number(score.innerHTML.split(' ')[1].split('/')[0])
     createChoices(options)
-    console.log(options)
+    
     Array.from(optlist).forEach((ele,index)=>{
         
         ele.style.display = 'block'
@@ -103,8 +104,6 @@ function takeQuiz(currQue)
         })
         endgame(currScore)
     })
-    
-    console.log(container)
     
 }
 
@@ -145,14 +144,15 @@ function endgame(currScore){
     
     let sts = '';
     let color = ''
+    ScoreBoard.innerHTML = ''
     if(currScore<=6){sts = 'Better luck next time';color = 'red'}
     else if(currScore<=14){sts = 'Average';color  = '#0c8fec'}
     else{sts = 'Best🎉';color = '#0cec22'}
-    if(currQue ===19)
+    if(currQue ===1)
     {
+        container.style.display = 'none'
         score.style.display = 'none'
-
-        container.innerHTML = '';
+        
         const head = document.createElement('h1')
         head.innerHTML = 'SCORE'
 
@@ -165,9 +165,30 @@ function endgame(currScore){
         status.innerHTML = sts
         status.style.color = color
 
-        container.appendChild(head);
-        container.appendChild(marks);
-        container.appendChild(status);
+        const restart = document.createElement('button')
+        restart.id = 'restart'
+        restart.innerHTML = 'Play Again'
+        ScoreBoard.appendChild(head);
+        ScoreBoard.appendChild(marks);
+        ScoreBoard.appendChild(status);
+        ScoreBoard.appendChild(restart);
+        ScoreBoard.style.display = 'flex'
+
+        restart.addEventListener('click', () => {
+            currQue = 0
+            currScore = 0
+            start.innerHTML = ''
+            optDiv.innerHTML = ''
+            
+            container.style.display = 'none'
+            start.style.display = 'flex';
+            start.innerHTML = `<button id="start-btn">START</button> `
+            stBtn = document.getElementById('start-btn');
+            stBtn.addEventListener('click', startGame);
+
+        });
+
+        
         // container.innerHTML = `
         // <h1>SCORE</h1>
         // <p id="marks">${currScore}/20</p>
