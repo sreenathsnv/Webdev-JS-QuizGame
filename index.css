@@ -19,6 +19,42 @@ body{
     align-items: center;
     background: #163c2b;
 }
+h1
+{
+    font-size: 10vh;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color:#e6ff09;
+    margin-top: 7vh;
+    animation: changeColor 1s ease-in infinite;
+}
+@keyframes changeColor {
+
+    0%
+    {
+        color:#e8fa48;
+
+    }
+    20%
+    {
+        color:#e6ff09;
+    }
+    40%
+    {
+        color:#9be622;
+    }
+    60%
+    {
+        color:#09b1ff;
+    }
+    80%
+    {
+       color:#d4089a;
+    }
+    100%{
+        color:#e8fa48;
+    }
+    
+}
 
 #container
 {

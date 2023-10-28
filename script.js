@@ -4,9 +4,10 @@ const stBtn = document.getElementById('start-btn')
 const container = document.getElementById('container')
 const quenum = document.getElementById('quenum')
 const quest = document.getElementById('quest')
-const optlist = document.getElementsByClassName('opt')
+let optlist = document.getElementsByClassName('opt')
 const nexBtn = document.getElementById('next')
 const score = document.getElementById('score')
+const optDiv = document.getElementById('optlist')
 
 // variables
 
@@ -17,7 +18,7 @@ var QueBank;
 // Initialisation
 container.style.display = 'none';
 score.style.display = 'none';
-nexBtn.disabled = true;
+
 
 
 //quiz start
@@ -59,23 +60,34 @@ function shuffleArray(array) {
     }
     return array
 }
-
+function createChoices(options)
+{
+    options.forEach((ele)=>{
+        let op = document.createElement('p')
+        op.classList.add('opt')
+        op.innerHTML = ele
+        optDiv.appendChild(op)
+        
+    })
+}
 function takeQuiz(currQue)
 {
-    
+
+    nexBtn.disabled = true;
     container.style.display = 'flex';
     quenum.innerHTML = currQue+1;
     quest.innerHTML = QueBank[currQue].question;
     options = shuffleArray([...QueBank[currQue].incorrect_answers,QueBank[currQue].correct_answer])
     let currScore = Number(score.innerHTML.split(' ')[1].split('/')[0])
+    createChoices(options)
     Array.from(optlist).forEach((ele,index)=>{
-        
+        nexBtn.disabled = false;
         ele.style.display = 'block'
         ele.innerHTML = options[index]
         ele.classList.remove('right')
         ele.classList.remove('wrong')
         ele.addEventListener('click',()=>{
-            nexBtn.disabled = false;
+            
             if(isAnswer(ele.innerHTML))
             {
                 
@@ -96,9 +108,6 @@ function takeQuiz(currQue)
     })
     
     
-
-    
-        
 }
 
 function isAnswer(option)
@@ -124,13 +133,15 @@ function disableOpt(curr,optlist)
 }
 
 nexBtn.addEventListener('click',()=>{
+    optDiv.innerHTML = [];
     currQue= currQue+1
     takeQuiz(currQue)
+    
 })
 
 function endgame(currScore){
 
-    score.style.display = 'none'
+    
     
     let sts = '';
     let color = ''
@@ -139,10 +150,31 @@ function endgame(currScore){
     else{sts = 'Best🎉';color = '#0cec22'}
     if(currQue ===19)
     {
-        container.innerHTML = `
-        <h1>SCORE</h1>
-        <p id="marks">${currScore}/20</p>
-        <p id="status" style = {color:${color};}>${sts}</p>`
+        score.style.display = 'none'
+
+        container.innerHTML = '';
+        const head = document.createElement('h1')
+        head.innerHTML = 'SCORE'
+
+        const marks  = document.createElement('p')
+        marks.id = 'marks'
+        marks.innerHTML = `${currScore}/20`
+
+        const status = document.createElement('p')
+        status.id = 'status'
+        status.innerHTML = sts
+        status.style.color = color
+
+        container.appendChild(head);
+        container.appendChild(marks);
+        container.appendChild(status);
+        
+
+
+        // container.innerHTML = `
+        // <h1>SCORE</h1>
+        // <p id="marks">${currScore}/20</p>
+        // <p id="status" style = "{color:${color};}">${sts}</p>`
     }
 }
 
