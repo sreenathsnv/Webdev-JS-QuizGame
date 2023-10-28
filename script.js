@@ -148,7 +148,7 @@ function endgame(currScore){
     if(currScore<=6){sts = 'Better luck next time';color = 'red'}
     else if(currScore<=14){sts = 'Average';color  = '#0c8fec'}
     else{sts = 'Best🎉';color = '#0cec22'}
-    if(currQue ===20)
+    if(currQue ===19)
     {
         score.style.display = 'none'
 
