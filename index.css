@@ -202,6 +202,7 @@ h1
     font-size: 8vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:rgb(51, 8, 96);
+    animation: none;
 }
 
 #marks

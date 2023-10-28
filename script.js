@@ -81,13 +81,13 @@ function takeQuiz(currQue)
     let currScore = Number(score.innerHTML.split(' ')[1].split('/')[0])
     createChoices(options)
     Array.from(optlist).forEach((ele,index)=>{
-        nexBtn.disabled = false;
+        
         ele.style.display = 'block'
         ele.innerHTML = options[index]
         ele.classList.remove('right')
         ele.classList.remove('wrong')
         ele.addEventListener('click',()=>{
-            
+            nexBtn.disabled = false;
             if(isAnswer(ele.innerHTML))
             {
                 
