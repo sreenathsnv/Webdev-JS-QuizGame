@@ -25,33 +25,31 @@ score.style.display = 'none';
 
 
 
-
-
-stBtn.addEventListener('click',async()=>{
-
-
+async function startGame(){
+    console.log('game started')
+  
     start.innerHTML = `<span class="loader"></span>`
 
     QueBank = await fetch('https://opentdb.com/api.php?amount=20')
     .then(resp=>{return resp.json()})
     .then(msg=> {return msg.results})
     .catch(()=>{alert('Some error Occured!!')})
-
     currScore = 0;
     
     score.style.display = 'flex';
     start.style.display = 'none';
     score.innerHTML = `SCORE  ${currScore}/20`;
     takeQuiz(currQue)
+}
 
-   
+stBtn.addEventListener('click',()=>{ startGame()
 })
 
 
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) { 
    
-        // Generate random number 
+       
         var j = Math.floor(Math.random() * (i + 1));
                    
         var temp = array[i];
@@ -80,6 +78,7 @@ function takeQuiz(currQue)
     options = shuffleArray([...QueBank[currQue].incorrect_answers,QueBank[currQue].correct_answer])
     let currScore = Number(score.innerHTML.split(' ')[1].split('/')[0])
     createChoices(options)
+    console.log(options)
     Array.from(optlist).forEach((ele,index)=>{
         
         ele.style.display = 'block'
@@ -100,13 +99,12 @@ function takeQuiz(currQue)
                 ele.classList.add('wrong')
             }
             disableOpt(ele,optlist)
-
-            console.log(currScore);
   
         })
         endgame(currScore)
     })
     
+    console.log(container)
     
 }
 
@@ -139,6 +137,8 @@ nexBtn.addEventListener('click',()=>{
     
 })
 
+
+
 function endgame(currScore){
 
     
@@ -148,7 +148,7 @@ function endgame(currScore){
     if(currScore<=6){sts = 'Better luck next time';color = 'red'}
     else if(currScore<=14){sts = 'Average';color  = '#0c8fec'}
     else{sts = 'Best🎉';color = '#0cec22'}
-    if(currQue ===19)
+    if(currQue ===20)
     {
         score.style.display = 'none'
 
@@ -168,16 +168,10 @@ function endgame(currScore){
         container.appendChild(head);
         container.appendChild(marks);
         container.appendChild(status);
-        
-
-
         // container.innerHTML = `
         // <h1>SCORE</h1>
         // <p id="marks">${currScore}/20</p>
         // <p id="status" style = "{color:${color};}">${sts}</p>`
     }
 }
-
-
-
 

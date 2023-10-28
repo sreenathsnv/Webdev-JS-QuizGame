@@ -69,7 +69,7 @@ h1
     min-height:50vh;
     padding:1vh;
     box-shadow: 1vh 1vh 1vh 1vh #0c2218;
-    margin-top: 30vh;
+    margin-top: 10vh;
 }
 #quenum
 
@@ -220,4 +220,19 @@ h1
     color:rgb(34, 212, 31);
     font-weight: 700;
     margin-bottom: 3vh;
+}
+#restart
+{
+    padding:1.5vh 6vh;
+    border:none;
+    border-radius: 1vh;
+    background: #ffffff;
+    color: rgb(238, 3, 70);
+    font-size: 5vh;
+    font-weight: 900;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+    width:20vh;
+    height: 12vh;
+    border: 5px solid #b4b2b2;
 }
